@@ -1,0 +1,3 @@
+sensor:
+  - platform: velo_antwerpen
+    station_id: '067'
