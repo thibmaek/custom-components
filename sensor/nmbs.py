@@ -3,8 +3,6 @@ Shows the available amount of public city bikes for Velo Antwerpen.
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/sensor.nmbs/
 """
-from __future__ import division
-
 import logging
 
 import requests
@@ -14,6 +12,7 @@ from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import CONF_NAME, ATTR_ATTRIBUTION
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import Entity
+import homeassistant.util.dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -33,6 +32,25 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
 })
 
+def get_time_until(departure_time=None):
+    """Calculate the time between now and a train's departure time"""
+    if departure_time is None:
+        return 0
+
+    delta = dt_util.utc_from_timestamp(int(departure_time)) - dt_util.now()
+
+    return round((delta.total_seconds() / 60))
+
+
+def get_delay(delay=0):
+    """Calculate the delay in minutes. Delays are expressed in seconds"""
+    return round((int(delay) / 60))
+
+def get_ride_duration(departure_time, arrival_time, delay=0):
+    duration = dt_util.utc_from_timestamp(int(arrival_time)) - dt_util.utc_from_timestamp(int(departure_time))
+    duration_time = round((duration.total_seconds() / 60))
+    return int(duration_time) + get_delay(int(delay))
+
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Velo sensor."""
@@ -45,8 +63,8 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     station_live = config.get(CONF_STATION_LIVE)
 
     add_entities([
+        NMBSLiveBoard(name, station_live, api_client),
         NMBSSensor(name, station_from, station_to, api_client),
-        NMBSLiveBoard(name, station_live, api_client)
     ], True)
 
 
@@ -77,20 +95,20 @@ class NMBSLiveBoard(Entity):
 
     @property
     def device_state_attributes(self):
-        """Return the state attributes of the sensor."""
-        if self._attrs is not None:
-            return {
-                "Delay": "{} seconds".format(self._attrs["delay"]),
-                "Vehicle ID": self._attrs['vehicle'],
-                "Occupancy": self._attrs['occupancy']['name'],
-                "Extra train": 'Yes' if int(self._attrs['isExtra']) > 0 else 'No',
-                "Departure": "TODO:",
-                ATTR_ATTRIBUTION: "https://api.irail.be/",
-            }
-        else:
-            return {
-                ATTR_ATTRIBUTION: "https://api.irail.be/",
-            }
+        if self._state is None or self._attrs is None:
+            return None
+
+        delay = get_delay(self._attrs["delay"])
+        departure = get_time_until(self._attrs['time'])
+
+        return {
+            "Delay": "{} minutes".format(delay) if delay > 0 else "None",
+            "Vehicle ID": self._attrs['vehicle'],
+            "Occupancy": self._attrs['occupancy']['name'],
+            "Extra train": 'Yes' if int(self._attrs['isExtra']) > 0 else 'No',
+            "Departure": "In {} minutes".format(departure),
+            ATTR_ATTRIBUTION: "https://api.irail.be/",
+        }
 
     def update(self):
         liveboard = self._api_client.get_liveboard(self._station)
@@ -119,7 +137,8 @@ class NMBSSensor(Entity):
     @property
     def unit_of_measurement(self):
         """Return the unit the value is expressed in."""
-        return ""
+        # TODO: use HA thingy
+        return "minutes"
 
     @property
     def icon(self):
@@ -129,6 +148,9 @@ class NMBSSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return the state attributes of the sensor."""
+        if self._state is None or self._attrs is None:
+            return None
+
         return {
             ATTR_ATTRIBUTION: "https://api.irail.be/",
         }
@@ -142,4 +164,13 @@ class NMBSSensor(Entity):
         """Set the state to the available amount of bikes as a number"""
         connections = self._api_client.get_connections(self._station_from, self._station_to)
         next_connection = connections["connection"][0]
-        self._state = "In 4 minutes, direction {0}".format(next_connection["departure"]["direction"]["name"])
+
+        duration = get_ride_duration(
+            next_connection['departure']['time'],
+            next_connection['arrival']['time'],
+            next_connection['departure']['delay'],
+        )
+
+        _LOGGER.error(duration)
+
+        self._state = duration
