@@ -47,6 +47,7 @@ def get_delay(delay=0):
     return round((int(delay) / 60))
 
 def get_ride_duration(departure_time, arrival_time, delay=0):
+    """Calculate the total travel time: duration + delay and return in minutes"""
     duration = dt_util.utc_from_timestamp(int(arrival_time)) - dt_util.utc_from_timestamp(int(departure_time))
     duration_time = round((duration.total_seconds() / 60))
     return int(duration_time) + get_delay(int(delay))
@@ -132,7 +133,7 @@ class NMBSSensor(Entity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return DEFAULT_NAME
 
     @property
     def unit_of_measurement(self):
@@ -143,7 +144,11 @@ class NMBSSensor(Entity):
     @property
     def icon(self):
         """Return the icon to use in the frontend, if any."""
-        return DEFAULT_ICON
+        delay = get_delay(self._attrs["departure"]["delay"])
+        if self._attrs is not None and delay > 0:
+            return "mdi:alert-octagon"
+        else:
+            return "mdi:train"
 
     @property
     def device_state_attributes(self):
@@ -151,7 +156,19 @@ class NMBSSensor(Entity):
         if self._state is None or self._attrs is None:
             return None
 
+        delay = get_delay(self._attrs["departure"]["delay"])
+        departure = get_time_until(self._attrs["departure"]['time'])
+
         return {
+            "Delay": "{} minutes".format(delay) if delay > 0 else "None",
+            "Vehicle ID": self._attrs["departure"]['vehicle'],
+            "Occupancy": self._attrs["departure"]['occupancy']['name'],
+            # "Via": self._attrs["vias"]["via"][0]["station"] if self._attrs["vias"] is not None else "Direct line",
+            # "Transfer time": get_delay(self._attrs["vias"]["via"][0]["timeBetween"]) if self._attrs["vias"] is not None else "Direct line",
+            "Departure": "In {} minutes".format(departure),
+            "Direction": self._attrs["departure"]["direction"]["name"],
+            "Platform (departing)": self._attrs["departure"]["platform"],
+            "Platform (arriving)": self._attrs["arrival"]["platform"],
             ATTR_ATTRIBUTION: "https://api.irail.be/",
         }
 
@@ -163,14 +180,19 @@ class NMBSSensor(Entity):
     def update(self):
         """Set the state to the available amount of bikes as a number"""
         connections = self._api_client.get_connections(self._station_from, self._station_to)
-        next_connection = connections["connection"][0]
+        next_connection = None
+
+        if int(connections["connection"][0]["departure"]["left"]) > 0:
+            next_connection = connections["connection"][1]
+        else:
+            next_connection = connections["connection"][0]
+
+        self._attrs = next_connection
 
         duration = get_ride_duration(
             next_connection['departure']['time'],
             next_connection['arrival']['time'],
             next_connection['departure']['delay'],
         )
-
-        _LOGGER.error(duration)
 
         self._state = duration
