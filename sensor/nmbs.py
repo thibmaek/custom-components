@@ -104,7 +104,7 @@ class NMBSLiveBoard(Entity):
 
         return {
             "Delay": "{} minutes".format(delay) if delay > 0 else "None",
-            "Vehicle ID": self._attrs['vehicle'],
+            "Vehicle ID": self._attrs['vehicle'].split('.')[2],
             "Occupancy": self._attrs['occupancy']['name'],
             "Extra train": 'Yes' if int(self._attrs['isExtra']) > 0 else 'No',
             "Departure": "In {} minutes".format(departure),
