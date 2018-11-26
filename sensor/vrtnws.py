@@ -12,8 +12,8 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_NAME = 'VRTNWS'
-DEFAULT_ICON = 'mdi:flower'
+DEFAULT_NAME = 'VRT NWS'
+DEFAULT_ICON = 'mdi:newspaper'
 
 REQUIREMENTS = ['xmltodict==0.11.0', 'requests_xml==0.2.3']
 
