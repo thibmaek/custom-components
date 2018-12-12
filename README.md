@@ -19,6 +19,8 @@ sensor:
 Displays the latest headline and breaking news item (if any) from [VRT NWS](https://www.vrt.be/vrtnws/nl/).
 This will create two seperate sensors: `sensor.vrt_nws, sensor.vrt_nws_breaking`
 
+![screenshot_vrt_nws](https://i.imgur.com/KyM04GO.png)
+
 ```yaml
 sensor:
   - platform: vrtnws

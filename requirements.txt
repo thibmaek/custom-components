@@ -1,0 +1,3 @@
+# sensor.vrtnws
+xmltodict==0.11.0
+requests_xml==0.2.3
