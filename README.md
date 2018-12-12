@@ -13,3 +13,15 @@ sensor:
   - platform: velo_antwerpen
     station_id: '067'
 ```
+
+## sensor.vrt_nws
+
+Displays the latest headline and breaking news item (if any) from [VRT NWS](https://www.vrt.be/vrtnws/nl/).
+This will create two seperate sensors: `sensor.vrt_nws, sensor.vrt_nws_breaking`
+
+```yaml
+sensor:
+  - platform: vrtnws
+    # Optional: set a scan interval
+    update_interval: 180
+```
