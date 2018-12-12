@@ -6,18 +6,18 @@ import logging
 import requests
 import voluptuous as vol
 
-from homeassistant.components.sensor import PLATFORM_SCHEMA
-from homeassistant.const import CONF_NAME, ATTR_ATTRIBUTION
 import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.entity import Entity
 import homeassistant.util.dt as dt_util
+from homeassistant.components.sensor import PLATFORM_SCHEMA
+from homeassistant.const import ATTR_ATTRIBUTION, CONF_NAME
+from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
 RESOURCE_URL = 'https://api.prd.telenet.be/ocapi/public/?p=internetusage'
 
 DEFAULT_NAME = 'Telemeter'
-DEFAULT_ICON = 'mdi:train' # TODO: icon
+DEFAULT_ICON = 'mdi:train'  # TODO: icon
 
 # This is a cookie obtained from the mijn.telenet.be webportal
 CONF_COOKIE = 'credential'
@@ -51,7 +51,7 @@ class TelemeterSensor(Entity):
     @property
     def icon(self):
         """Return the icon to use in the frontend, if any."""
-        return '' # TODO: correct icon
+        return ''  # TODO: correct icon
 
     @property
     def state(self):

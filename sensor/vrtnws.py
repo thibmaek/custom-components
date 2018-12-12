@@ -8,8 +8,9 @@ https://github.com/thibmaek/custom-components/
 import logging
 from datetime import timedelta
 
-import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+
+import homeassistant.helpers.config_validation as cv
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.helpers.entity import Entity
