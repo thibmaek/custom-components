@@ -19,7 +19,8 @@ from homeassistant.util import Throttle
 _LOGGER = logging.getLogger(__name__)
 
 EXCLUDE_ITEMS = [
-    "LIVE : Het Journaal 1"
+    "LIVE : Het Journaal 1", "Het Journaal Laat",
+    "De markt", "Het weer", "Villa Politica"
 ]
 ATTRIBUTION = "Data provided by https://www.vrt.be/vrtnws/nl/"
 
@@ -167,8 +168,7 @@ class VRTNWSFeedSensor(Entity):
 
         # Don't include this in the state because it appears too often and is
         # not interesting
-        # TODO: use the exlusion list here instead
-        if title == "LIVE : Het Journaal 1":
+        if title in EXCLUDE_ITEMS:
             return
 
         self._data = entries[0]
