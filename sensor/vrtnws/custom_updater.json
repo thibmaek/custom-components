@@ -1,0 +1,9 @@
+{
+  "picture-plant-card": {
+    "updated_at": "2019-01-05",
+    "version": "1.0.1",
+    "remote_location": "https://raw.githubusercontent.com/thibmaek/custom-components/master/sensor/vrtnws/vrtnws.py",
+    "visit_repo": "https://github.com/thibmaek/custom-components/sensor/vrtnws",
+    "changelog": "https://github.com/thibmaek/custom-components/sensor/vrtnws/CHANGELOG.md"
+  }
+}
