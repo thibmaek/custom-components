@@ -1,7 +1,7 @@
 {
   "velo_antwerpen": {
     "updated_at": "2019-01-06",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "local_location": "/custom_components/sensor/velo_antwerpen.py",
     "remote_location": "https://raw.githubusercontent.com/thibmaek/custom-components/master/sensor/velo_antwerpen/velo_antwerpen.py",
     "visit_repo": "https://github.com/thibmaek/custom-components/sensor/velo_antwerpen",
