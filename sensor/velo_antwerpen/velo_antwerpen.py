@@ -17,7 +17,7 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 DEFAULT_NAME = 'Velo'
 
@@ -73,9 +73,17 @@ class VeloSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return the state attributes of the sensor."""
+        if self._state is None or self._station_data is None:
+            return {}
+
         return {
-            "Station ID": self._station,
-            "Station": self._station_data["address"],
+            'available_slots': int(self._station_data['slots']),
+            'latitude': self._station_data['lat'],
+            'longitude': self._station_data['long'],
+            "station_address": self._station_data["address"],
+            "station_id": int(self._station_id),
+            "station_name": self._station_data['name'],
+            "station_opened": self._station_data['status'] == 'OPN',
             ATTR_ATTRIBUTION: "https://www.velo-antwerpen.be/",
         }
 
