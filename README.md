@@ -1,15 +1,7 @@
 # Custom Components
 
-Collection of custom componets to use with Home Assistant.
+Collection of custom componets to use with Home Assistant. This repo mainly consists of useful sensor which use the Python `requests` package to fetch data from an HTTP endpoint. Since [protocol handling is not allowed](https://github.com/home-assistant/home-assistant/pull/18276#discussion_r231319479) in Home Assistant core, those components end up here.
 
-## sensor.velo_antwerpen
+## Custom updater
 
-Shows the amount of free bikes in a favourite Velo Antwerpen bike station.
-
-![screenshot_velo_antwerpen](https://user-images.githubusercontent.com/6213695/48092180-3fa40980-e20c-11e8-8049-e34c0ed802c2.png)
-
-```yaml
-sensor:
-  - platform: velo_antwerpen
-    station_id: '067'
-```
+Each component is isolated in its own folder with a README and CHANGELOG. There is provided support for [custom_updater](https://github.com/custom-components/custom_updater) for every component which has a released status.
