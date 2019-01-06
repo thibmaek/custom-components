@@ -16,6 +16,8 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
+__version__ = '1.0.0'
+
 DEFAULT_NAME = 'Velo'
 DEFAULT_ICON = 'mdi:bike'
 DEFAULT_UNIT = 'bikes'
