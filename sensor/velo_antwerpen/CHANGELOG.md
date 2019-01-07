@@ -1,3 +1,7 @@
+# 1.2.0
+
+- Use show_on_map config option to display the station on map and show the Velo logo
+
 # 1.1.0
 
 - Provide a lot more attributes. Attributes will now look like the example below. 914109dff0a59794f47e8a69e55c152c4add993b

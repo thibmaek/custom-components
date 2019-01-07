@@ -18,7 +18,7 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 DEFAULT_NAME = 'Velo'
 
