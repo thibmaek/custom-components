@@ -79,7 +79,7 @@ class VeloSensor(Entity):
         return {
             'available_slots': int(self._station_data['slots']),
             'latitude': self._station_data['lat'],
-            'longitude': self._station_data['long'],
+            'longitude': self._station_data['lon'],
             "station_address": self._station_data["address"],
             "station_id": int(self._station_id),
             "station_name": self._station_data['name'],
