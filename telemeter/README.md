@@ -2,7 +2,7 @@
 
 Displays information about your Telenet interner usage (Telemeter).
 
-![screenshot_telemeter]()
+![screenshot_telemeter](https://i.imgur.com/pFo1ie3.png)
 
 ## Configuration
 
