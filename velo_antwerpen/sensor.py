@@ -2,7 +2,7 @@
 Shows the available amount of public city bikes for Velo Antwerpen.
 For more details about this platform, please refer to the documentation at
 
-https://github.com/thibmaek/custom-components/sensor/velo_antwerpen
+https://github.com/thibmaek/custom-components/velo_antwerpen
 """
 
 import logging

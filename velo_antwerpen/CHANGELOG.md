@@ -1,3 +1,7 @@
+# 1.2.1
+
+- Use the new Custom Component API from HA
+
 # 1.2.0
 
 - Use show_on_map config option to display the station on map and show the Velo logo
