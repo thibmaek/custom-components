@@ -1,3 +1,7 @@
+# 1.0.3
+
+- Exclude more items
+
 # 1.0.2
 
 - Use the new Custom Component API from HA

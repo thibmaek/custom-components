@@ -1,7 +1,7 @@
 {
   "vrtnws": {
     "updated_at": "2019-03-10",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "local_location": "/custom_components/vrtnws/sensor.py",
     "remote_location": "https://raw.githubusercontent.com/thibmaek/custom-components/master/vrtnws/sensor.py",
     "visit_repo": "https://github.com/thibmaek/custom-components/vrtnws",

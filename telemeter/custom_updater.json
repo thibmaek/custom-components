@@ -1,7 +1,7 @@
 {
   "velo_antwerpen": {
     "updated_at": "2019-03-10",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "local_location": "/custom_components/telemeter/sensor.py",
     "remote_location": "https://raw.githubusercontent.com/thibmaek/custom-components/master/telemeter/sensor.py",
     "visit_repo": "https://github.com/thibmaek/custom-components/telemeter",
