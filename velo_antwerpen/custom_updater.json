@@ -4,7 +4,7 @@
     "version": "1.2.1",
     "local_location": "/custom_components/velo_antwerpen/sensor.py",
     "remote_location": "https://raw.githubusercontent.com/thibmaek/custom-components/master/velo_antwerpen/sensor.py",
-    "visit_repo": "https://github.com/thibmaek/custom-components/velo_antwerpen",
-    "changelog": "https://github.com/thibmaek/custom-components/velo_antwerpen/CHANGELOG.md"
+    "visit_repo": "https://github.com/thibmaek/custom-components/tree/master/velo_antwerpen",
+    "changelog": "https://github.com/thibmaek/custom-components/blob/master/velo_antwerpen/CHANGELOG.md"
   }
 }
