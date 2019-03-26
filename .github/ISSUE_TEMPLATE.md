@@ -6,6 +6,8 @@ Replace the text between brackets with your config or tick off the relevant boxe
   - [ ] Hassbian / Raspbian
   - [ ] Docker
   - [ ] Hass.io
+    - [ ] HassOS
+    - [ ] Other
   - [ ] Python
 
 If you are using Hass.io, paste the output of following commands in the relevant code blocks. Otherwise you can delete this section:
