@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# 
+#
 # Simple script to be used with motionEye's motion notifications
 # which will trigger a binary sensor to on or off over MQTT or HTTP.
 # e.g. bash /home/pi/motioneye_on_motion.sh motion_ended_http
-# 
+#
 
 # Configure this to refer to your Home Assistant instance
 HOSTNAME="hassio.local"
@@ -33,30 +33,69 @@ function check_reqs_mqtt() {
 
 function motion_detected_mqtt() {
   check_reqs_mqtt
-  mosquitto_pub -h $HOSTNAME -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASS" -t "$MQTT_TOPIC" -m "ON"
+
+  local topic=""
+  if [ -z "$1" ]; then
+    topic="$MQTT_TOPIC"
+  else
+    topic="$MQTT_TOPIC/$1"
+  fi
+
+  mosquitto_pub -h $HOSTNAME -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASS" -t "$topic" -m "ON"
 }
 
 function motion_ended_mqtt() {
   check_reqs_mqtt
-  mosquitto_pub -h $HOSTNAME -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASS" -t "$MQTT_TOPIC" -m "OFF"
+
+  local topic=""
+  if [ -z "$1" ]; then
+    topic="$MQTT_TOPIC"
+  else
+    topic="$MQTT_TOPIC/$1"
+  fi
+
+  mosquitto_pub -h $HOSTNAME -p "$MQTT_PORT" -u "$MQTT_USER" -P "$MQTT_PASS" -t "$topic" -m "OFF"
 }
 
 function motion_detected_http() {
   check_reqs_http
+
+  local sensor=""
+  if [ -z "$1" ]; then
+    sensor="$BINARY_SENSOR"
+  else
+    sensor="$1"
+  fi
+
   curl -X POST -H "x-ha-access:$ACCESS_TOKEN" -H "Content-Type: application/json" \
-    -d '{"state": "on"}' "$HOME_ASSISTANT_URL/states/$BINARY_SENSOR"
+    -d '{"state": "on"}' "$HOME_ASSISTANT_URL/states/$sensor"
 }
 
 function motion_ended_http() {
   check_reqs_http
+
+  local sensor=""
+  if [ -z "$1" ]; then
+    sensor="$BINARY_SENSOR"
+  else
+    sensor="$1"
+  fi
+
   curl -X POST -H "x-ha-access:$ACCESS_TOKEN" -H "Content-Type: application/json" \
-    -d '{"state": "off"}' "$HOME_ASSISTANT_URL/states/$BINARY_SENSOR"
+    -d '{"state": "off"}' "$HOME_ASSISTANT_URL/states/$sensor"
 }
 
 function trigger_ifttt_webhook() {
   check_reqs_http
   local IFTTT_TOKEN=""
-  local EVENT_IDENTIFIER="motion_detected"
+
+  if [ -z "$1" ]; then
+    EVENT_IDENTIFIER="motion_detected"
+  else
+    EVENT_IDENTIFIER="$1"
+  fi
+
+  echo "$EVENT_IDENTIFIER"
   curl "https://maker.ifttt.com/trigger/${EVENT_IDENTIFIER}/with/key/${IFTTT_TOKEN}"
 }
 
