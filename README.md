@@ -11,12 +11,18 @@ Each component is isolated in its own folder with a README and CHANGELOG. There 
 ## Adding to Home Assistant
 
 1. Create (if not already created) a folder in your `/config` directory called `custom_components`
-2. Copy `<custom_component>/sensor.py` from this repo to the same location
+2. Copy `<custom_component>/<integration>` from this repo to the same location
 3. Restart Home Assistant
 
 e.g:
 
 ```plaintext
+https://github.com/thibmaek/custom-components/telemeter/__init__.py
+  --> /config/custom_components/telemeter/__init__.py
+
 https://github.com/thibmaek/custom-components/telemeter/sensor.py
   --> /config/custom_components/telemeter/sensor.py
+
+https://github.com/thibmaek/custom-components/telemeter/manifest.json
+  --> /config/custom_components/telemeter/manifest.json
 ```
