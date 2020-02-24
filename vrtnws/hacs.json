@@ -2,5 +2,5 @@
   "name": "vrtnws",
   "filename": "sensor.py",
   "render_readme": true,
-  "domains": ["sensor"],
+  "domains": ["sensor"]
 }
