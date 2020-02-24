@@ -1,5 +1,7 @@
 # VRT NWS
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
+
 Displays the latest headline and breaking news item (if any) from [VRT NWS](https://www.vrt.be/vrtnws/nl/).
 This will create two seperate sensors: `sensor.vrt_nws, sensor.vrt_nws_breaking`
 
