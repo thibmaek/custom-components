@@ -1,3 +1,5 @@
+> __⚠️ This integration is deprecated, usage comes without support.__
+
 # Telemeter
 
 Displays information about your Telenet interner usage (Telemeter).
